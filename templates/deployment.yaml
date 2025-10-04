@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "golink.fullname" . }}
+  labels:
+    {{- include "golink.labels" . | nindent 4 }}
+spec:
+  # golink doesn't allow to run with multiple replicas, so hardcode this to 1, and ensure that it
+  # doesn't do a rolling update, but recreate
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "golink.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "golink.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "golink.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args:
+            - --sqlitedb=/home/nonroot/golink.db
+            - --https={{ .Values.config.https }}
+            {{- if .Values.config.hostname }}
+            - --hostname={{ .Values.config.hostname }}
+            {{- end }}
+            {{- if .Values.config.verbose }}
+            - --verbose
+            {{- end }}
+          {{- if .Values.config.authKey }}
+          env:
+            - name: TS_AUTHKEY
+              valueFrom:
+                secretKeyRef:
+                  {{- if .Values.config.authKey.existingSecretName }}
+                  name: {{ .Values.config.authKey.existingSecretName }}
+                  {{- else }}
+                  name: {{ include "golink.fullname" . }}
+                  {{- end }}
+                  key: {{ .Values.config.authKey.keyName | default "golink-authkey" }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: data-volume
+              mountPath: /home/nonroot
+      volumes:
+      {{- if .Values.persistence.enabled }}
+        - name: data-volume
+          persistentVolumeClaim:
+            claimName: {{ include "golink.fullname" . }}
+      {{- else }}
+        - name: data-volume
+          emptyDir: {}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

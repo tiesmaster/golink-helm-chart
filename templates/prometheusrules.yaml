@@ -1,0 +1,24 @@
+---
+{{- if and (.Capabilities.APIVersions.Has "monitoring.coreos.com/v1") (.Values.prometheusRule.enabled) }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ include "golink.fullname" . }}-alertrule
+  labels:
+    {{- include "golink.labels" . | nindent 4 }}
+{{- if .Values.prometheusRule.additionalLabels }}
+{{ toYaml .Values.prometheusRule.additionalLabels | indent 4 }}
+{{- end }}
+spec:
+  groups:
+    - name: golink.rules
+      rules:
+        - alert: GolinkDeploymentUnavailable
+          expr: kube_deployment_status_replicas_available{namespace="{{ .Release.Namespace }}", deployment="{{ include "golink.fullname" . }}"} == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Deployment golink is unavailable"
+            description: "Deployment golink in namespace {{`{{`}} $labels.namespace {{`}}`}} has 0 available replicas."
+{{- end }}
