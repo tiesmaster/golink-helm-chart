@@ -3,5 +3,7 @@ apiVersion: v2
 name: golink
 description: A Helm chart to deploy golink
 type: application
-version: 0.1.0
+version: 0.2.0
 appVersion: "main"
+annotations:
+  org.opencontainers.image.source: https://github.com/tiesmaster/golink-helm-chart
