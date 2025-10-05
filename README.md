@@ -8,11 +8,6 @@ Helm chart for Tailscale's golink application
 
 * <https://github.com/tailscale/golink>
 
-## Source Code
-
- * app:
- * helm chart: <https://github.com/tiesmaster/golink-helm-chart>
-
 ## Requirements
 
 - Helm: 3.8+ (due to OCI registry support)
@@ -56,36 +51,32 @@ helm install unifi oci://ghcr.io/tiesmaster/golink -f values.yaml
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| affinity | object | `{}` |  |
-| config.https | bool | `true` |  |
-| config.verbose | bool | `true` |  |
-| fullnameOverride | string | `""` |  |
-| image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.repository | string | `"ghcr.io/tailscale/golink"` |  |
-| image.tag | string | `""` |  |
-| imagePullSecrets | list | `[]` |  |
-| nameOverride | string | `""` |  |
-| nodeSelector | object | `{}` |  |
-| persistence.accessModes[0] | string | `"ReadWriteOnce"` |  |
-| persistence.enabled | bool | `true` |  |
-| persistence.extraPvcLabels | object | `{}` |  |
-| persistence.size | string | `"100Mi"` |  |
-| podAnnotations | object | `{}` |  |
-| podLabels | object | `{}` |  |
-| podSecurityContext.fsGroup | int | `65532` |  |
-| podSecurityContext.runAsGroup | int | `65532` |  |
-| podSecurityContext.runAsUser | int | `65532` |  |
-| prometheusRule.additionalLabels | object | `{}` |  |
-| prometheusRule.enabled | bool | `false` |  |
-| resources | object | `{}` |  |
-| securityContext.capabilities.drop[0] | string | `"ALL"` |  |
-| securityContext.readOnlyRootFilesystem | bool | `true` |  |
-| securityContext.runAsNonRoot | bool | `true` |  |
-| serviceAccount.annotations | object | `{}` |  |
-| serviceAccount.automount | bool | `true` |  |
-| serviceAccount.create | bool | `true` |  |
-| serviceAccount.name | string | `""` |  |
-| tolerations | list | `[]` |  |
+| affinity | object | `{}` | Assign custom [affinity] rules to the deployment |
+| config.https | bool | `true` | Enable Tailscale's HTTPS support, requires this to be enabled for your tailnet |
+| config.verbose | bool | `true` | Enable verbose output logging in the console |
+| fullnameOverride | string | `""` | Provide a name to substitute for the full names of resources |
+| image.pullPolicy | string | `"IfNotPresent"` | golink image pull policy. One of `Always`, `Never`, `IfNotPresent` |
+| image.repository | string | `"ghcr.io/tailscale/golink"` | golink container image name |
+| image.tag | string | `""` | golink container image tag |
+| imagePullSecrets | list | `[]` | Reference to one or more secrets to be used when pulling images ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/ |
+| nameOverride | string | `""` | Provide a name in place of golink for `app:` labels |
+| nodeSelector | object | `{}` | [Node selector] for pod assignment |
+| persistence.accessModes | list | `["ReadWriteOnce"]` | Persistence access modes |
+| persistence.annotations | object | `{}` | Annotations for the persistent volume claim |
+| persistence.enabled | bool | `true` | Use persistent volume to store data |
+| persistence.extraPvcLabels | object | `{}` | Extra labels to add to the persistent volume claim |
+| persistence.selectorLabels | object | `{}` | Selector labels for the persistent volume claim |
+| persistence.size | string | `"100Mi"` | Size of persistent volume claim |
+| persistence.storageClass | string | `""` | Storage Class to use for the PVC |
+| podAnnotations | object | `{}` | Annotations for golink pod |
+| podLabels | object | `{}` | Labels for golink pod |
+| podSecurityContext | object | `{"fsGroup":65532,"runAsGroup":65532,"runAsUser":65532}` | SecurityContext holds pod-level security attributes and common container settings. This defaults to non root user with uid 65532 and gid 65532 ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/ |
+| prometheusRule.additionalLabels | object | `{}` | Additional labels to add to the PrometheusRule |
+| prometheusRule.enabled | bool | `false` | Enable deploying a PrometheusRule to alert on golink going down |
+| resources | object | `{}` | Set container requests and limits for different resources like CPU or memory |
+| securityContext | object | `{"capabilities":{"drop":["ALL"]},"readOnlyRootFilesystem":true,"runAsNonRoot":true}` | Container-specific security context configuration ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/ |
+| serviceAccount | object | `{"annotations":{},"automount":true,"create":true,"name":""}` | Service account for upgrade crd job to use. |
+| tolerations | list | `[]` | [Tolerations] for pod assignment |
 
 # Restore from backup
 
