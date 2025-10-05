@@ -7,43 +7,67 @@ config:
   #   existingSecretName: golinkAuthKey
   #   keyName: "" #  default: golink-authkey
   # hostname: go
+  # -- Enable verbose output logging in the console
   verbose: true
+  # -- Enable Tailscale's HTTPS support, requires this to be enabled for your tailnet
   https: true
 
 persistence:
+  # -- Use persistent volume to store data
   enabled: true
-  # storageClassName: default
+  # -- Storage Class to use for the PVC
+  storageClass: ""
+  # -- Persistence access modes
   accessModes:
     - ReadWriteOnce
+  # -- Size of persistent volume claim
   size: 100Mi
-  # annotations: {}
-  # selectorLabels: {}
+  # -- Annotations for the persistent volume claim
+  annotations: {}
+  # -- Selector labels for the persistent volume claim
+  selectorLabels: {}
+  # -- Extra labels to add to the persistent volume claim
   extraPvcLabels: {}
 
 image:
+  # -- golink container image name
   repository: ghcr.io/tailscale/golink
+  # -- golink image pull policy. One of `Always`, `Never`, `IfNotPresent`
   pullPolicy: IfNotPresent
+  # -- golink container image tag
   tag: ""
 
+# -- Reference to one or more secrets to be used when pulling images
+# ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets: []
 
+# -- Provide a name in place of golink for `app:` labels
 nameOverride: ""
+# -- Provide a name to substitute for the full names of resources
 fullnameOverride: ""
 
+# -- Service account for upgrade crd job to use.
 serviceAccount:
   create: true
   automount: true
   annotations: {}
   name: ""
 
+# -- Annotations for golink pod
 podAnnotations: {}
+# -- Labels for golink pod
 podLabels: {}
 
+# -- SecurityContext holds pod-level security attributes and common container settings.
+# This defaults to non root user with uid 65532 and gid 65532
+# ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
 podSecurityContext:
   runAsUser: 65532
   runAsGroup: 65532
   fsGroup: 65532
 
+# -- Container-specific security context configuration
+# ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
 securityContext:
   capabilities:
     drop:
@@ -51,24 +75,30 @@ securityContext:
   readOnlyRootFilesystem: true
   runAsNonRoot: true
 
+# -- Set container requests and limits for different resources like CPU or memory
 resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+# We usually recommend not to specify default resources and to leave this as a conscious
+# choice for the user. This also increases chances charts run on environments with little
+# resources, such as Minikube. If you do want to specify resources, uncomment the following
+# lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+# limits:
+#   cpu: 100m
+#   memory: 128Mi
+# requests:
+#   cpu: 100m
+#   memory: 128Mi
 
+# -- [Node selector] for pod assignment
 nodeSelector: {}
 
+# -- [Tolerations] for pod assignment
 tolerations: []
 
+# -- Assign custom [affinity] rules to the deployment
 affinity: {}
 
 prometheusRule:
+  # -- Enable deploying a PrometheusRule to alert on golink going down
   enabled: false
+  # -- Additional labels to add to the PrometheusRule
   additionalLabels: {}
