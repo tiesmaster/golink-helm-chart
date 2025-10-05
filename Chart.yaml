@@ -1,9 +1,15 @@
 ---
 apiVersion: v2
 name: golink
-description: A Helm chart to deploy golink
+description: Tailscale's golink application
 type: application
 version: 0.2.0
 appVersion: "main"
+home: https://github.com/tiesmaster/golink-helm-chart
+sources:
+  - https://github.com/tailscale/golink
+maintainers:
+  - name: tiesmaster
+    url: https://github.com/tiesmaster/
 annotations:
   org.opencontainers.image.source: https://github.com/tiesmaster/golink-helm-chart

@@ -6,7 +6,11 @@ Helm chart for Tailscale's golink application
 
 ## Source Code
 
- * app: <https://github.com/tailscale/golink/>
+* <https://github.com/tailscale/golink>
+
+## Source Code
+
+ * app:
  * helm chart: <https://github.com/tiesmaster/golink-helm-chart>
 
 ## Requirements
