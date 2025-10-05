@@ -52,6 +52,11 @@ helm install unifi oci://ghcr.io/tiesmaster/golink -f values.yaml
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` | Assign custom [affinity] rules to the deployment |
+| config.authKey.enabled | bool | `false` | Register in the tailnet via the provided TS authkey. If disabled, retrieve the login URL from the container logs. |
+| config.authKey.existingSecretName | string | `""` | Or reference an existing secret. Mutually exclusive with key |
+| config.authKey.key | string | `""` | Provide the authkey directly, eg. 'tskey-auth-...-...'. Mutually exclusive with existingSecretName |
+| config.authKey.keyName | string | `"golink-authkey"` | default: golink-authkey |
+| config.hostname | string | `""` | Changes the service name from the default 'go' that golink uses to register itself in the tailnet |
 | config.https | bool | `true` | Enable Tailscale's HTTPS support, requires this to be enabled for your tailnet |
 | config.verbose | bool | `true` | Enable verbose output logging in the console |
 | fullnameOverride | string | `""` | Provide a name to substitute for the full names of resources |
