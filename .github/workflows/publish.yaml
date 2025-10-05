@@ -1,0 +1,14 @@
+name: Publish chart
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Say hoi
+        run: echo "hoi"
