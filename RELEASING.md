@@ -1,3 +1,9 @@
+# Update README.md
+
+```sh
+helm-docs .
+```
+
 # How to release?
 
  1. Set a valid `GITHUB_TOKEN` with `write:package` scope
