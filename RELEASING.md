@@ -1,17 +1,16 @@
-# Update README.md
+# How to release?
+
+## Update README.md
 
 ```sh
 helm-docs .
 ```
 
-# How to release?
+_and commit that!_
 
- 1. Set a valid `GITHUB_TOKEN` with `write:package` scope
- 2. Bump the version in `Chart.yaml`
- 3. Run the following commands from the terminal:
+## Tag to a new version
 
 ```sh
-helm package .
-echo $GITHUB_TOKEN | helm registry login ghcr.io -u tiesmaster --password-stdin
-helm push golink-$(yq .version Chart.yaml).tgz oci://ghcr.io/tiesmaster
+git tag v0.x.0
+git push origin v0.x.0
 ```
