@@ -47,7 +47,7 @@ spec:
             {{- if .Values.config.verbose }}
             - --verbose
             {{- end }}
-          {{- if .Values.config.authKey }}
+          {{- if .Values.config.authKey.enabled }}
           env:
             - name: TS_AUTHKEY
               valueFrom:
@@ -57,7 +57,7 @@ spec:
                   {{- else }}
                   name: {{ include "golink.fullname" . }}
                   {{- end }}
-                  key: {{ .Values.config.authKey.keyName | default "golink-authkey" }}
+                  key: {{ .Values.config.authKey.keyName }}
           {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

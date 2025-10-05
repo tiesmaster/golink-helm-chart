@@ -1,15 +1,16 @@
 Golink is now deployed!
 
-{{- if not .Values.config.authKey }}
+{{- if .Values.config.authKey.enabled }}
+
+1. Check your tailnet to see if '{{ include "golink.hostname" . }}' registered itself via the provided auth key
+
+{{- else }}
 
 1. Get your tailscale login URL, and log into the Tailscale control plane:
 
   kubectl logs -n {{ .Release.Namespace }} -l app.kubernetes.io/name=golink
 
 And see '{{ include "golink.hostname" . }}' appear in your tailnet.
-{{- else }}
-
-1. Check your tailnet to see if '{{ include "golink.hostname" . }}' registered itself via the provided auth key
 
 {{- end }}
 

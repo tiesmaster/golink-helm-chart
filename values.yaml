@@ -1,12 +1,18 @@
 ---
 config:
-  # authKey:
-  #   # set the authkey directly
-  #   value: 'tskey-auth-...-...'
-  #   # or reference an existing secret
-  #   existingSecretName: golinkAuthKey
-  #   keyName: "" #  default: golink-authkey
-  # hostname: go
+  authKey:
+    # -- Register in the tailnet via the provided TS authkey. If disabled, retrieve the login URL
+    # from the container logs.
+    enabled: false
+    # -- Provide the authkey directly, eg. 'tskey-auth-...-...'. Mutually exclusive with existingSecretName
+    key: ""
+    # -- Or reference an existing secret. Mutually exclusive with key
+    existingSecretName: ""
+    # --  default: golink-authkey
+    keyName: golink-authkey
+  # -- Changes the service name from the default 'go' that golink uses to register itself in the
+  # tailnet
+  hostname: ""
   # -- Enable verbose output logging in the console
   verbose: true
   # -- Enable Tailscale's HTTPS support, requires this to be enabled for your tailnet
