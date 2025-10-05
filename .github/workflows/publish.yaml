@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   hello:
     runs-on: ubuntu-latest
@@ -22,7 +26,5 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Sanity check
-        run: yq .version Chart.yaml
       - name: Push chart to GHCR
         run: helm push golink-$(yq .version Chart.yaml).tgz oci://ghcr.io/${{ github.repository }}
