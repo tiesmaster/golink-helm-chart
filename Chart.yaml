@@ -3,7 +3,7 @@ apiVersion: v2
 name: golink
 description: Tailscale's golink application
 type: application
-version: 0.3.0
+version: 0.0.0  # CI sets this to the tag version
 appVersion: "main"
 home: https://github.com/tiesmaster/golink-helm-chart
 sources:
