@@ -45,7 +45,7 @@ helm install golink \
 Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart.
 
 ```console
-helm install unifi oci://ghcr.io/tiesmaster/golink -f values.yaml
+helm install golink oci://ghcr.io/tiesmaster/golink -f values.yaml
 ```
 ## Values
 
