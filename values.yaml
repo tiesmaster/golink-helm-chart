@@ -22,7 +22,7 @@ persistence:
   # -- Use persistent volume to store data
   enabled: true
   # -- Storage Class to use for the PVC
-  storageClass: ""
+  storageClassName: ""
   # -- Persistence access modes
   accessModes:
     - ReadWriteOnce
