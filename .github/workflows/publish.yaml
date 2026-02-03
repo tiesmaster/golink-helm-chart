@@ -48,4 +48,4 @@ jobs:
         run: helm push golink-${{ steps.version.outputs.version }}.tgz oci://ghcr.io/${{ github.repository }}
 
       - name: Push chart to GHCR
-        run: helm push golink-${{ steps.version.outputs.version }}.tgz oci://ghcr.io/tiesmaster/golink
+        run: helm push golink-${{ steps.version.outputs.version }}.tgz oci://ghcr.io/tiesmaster/
