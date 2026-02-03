@@ -1,5 +1,7 @@
+---
 name: Publish chart
 
+# yamllint disable-line rule:truthy
 on:
   push:
     tags:
@@ -42,5 +44,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Push chart to GHCR
+      - name: Push chart to GHCR (legacy)
         run: helm push golink-${{ steps.version.outputs.version }}.tgz oci://ghcr.io/${{ github.repository }}
+
+      - name: Push chart to GHCR
+        run: helm push golink-${{ steps.version.outputs.version }}.tgz oci://ghcr.io/tiesmaster/golink
