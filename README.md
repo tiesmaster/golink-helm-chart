@@ -14,6 +14,10 @@ Helm chart for Tailscale's golink application
 
 ## Installing the Chart
 
+NOTE: due to a bug ([#2](https://github.com/tiesmaster/golink-helm-chart/issues/2)) in the pipeline,
+the chart was pushed to the wrong URL. This is now fixed, but the chart continues to be pushed to
+the old URL (`oci://ghcr.io/tiesmaster/golink-helm-chart/golink`) for a little while.
+
 To install the chart with the release name `golink`
 
 ```sh
@@ -72,7 +76,7 @@ helm install golink oci://ghcr.io/tiesmaster/golink -f values.yaml
 | persistence.extraPvcLabels | object | `{}` | Extra labels to add to the persistent volume claim |
 | persistence.selectorLabels | object | `{}` | Selector labels for the persistent volume claim |
 | persistence.size | string | `"100Mi"` | Size of persistent volume claim |
-| persistence.storageClass | string | `""` | Storage Class to use for the PVC |
+| persistence.storageClassName | string | `""` | Storage Class to use for the PVC |
 | podAnnotations | object | `{}` | Annotations for golink pod |
 | podLabels | object | `{}` | Labels for golink pod |
 | podSecurityContext | object | `{"fsGroup":65532,"runAsGroup":65532,"runAsUser":65532}` | SecurityContext holds pod-level security attributes and common container settings. This defaults to non root user with uid 65532 and gid 65532 ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/ |
