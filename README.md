@@ -80,6 +80,7 @@ helm install golink oci://ghcr.io/tiesmaster/golink -f values.yaml
 | podAnnotations | object | `{}` | Annotations for golink pod |
 | podLabels | object | `{}` | Labels for golink pod |
 | podSecurityContext | object | `{"fsGroup":65532,"runAsGroup":65532,"runAsUser":65532}` | SecurityContext holds pod-level security attributes and common container settings. This defaults to non root user with uid 65532 and gid 65532 ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/ |
+| priorityClassName | string | `""` | Set the [priorityClassName] for the pod |
 | prometheusRule.additionalLabels | object | `{}` | Additional labels to add to the PrometheusRule |
 | prometheusRule.enabled | bool | `false` | Enable deploying a PrometheusRule to alert on golink going down |
 | resources | object | `{}` | Set container requests and limits for different resources like CPU or memory |
