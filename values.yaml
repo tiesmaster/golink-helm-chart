@@ -94,6 +94,9 @@ resources: {}
 #   cpu: 100m
 #   memory: 128Mi
 
+# -- Set the [priorityClassName] for the pod
+priorityClassName: ""
+
 # -- [Node selector] for pod assignment
 nodeSelector: {}
 
